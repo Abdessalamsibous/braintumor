@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="text-center mb-0">
+                    <i class="fas fa-microscope me-2"></i>Analyse d'Image IRM
+                </h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" id="detection-form">
+                    <div class="mb-4">
+                        <label for="mri_image" class="form-label">Image IRM</label>
+                        <input type="file" class="form-control" id="mri_image" name="mri_image" accept=".png,.jpg,.jpeg" required>
+                        <div class="form-text">Formats acceptés: PNG, JPG, JPEG</div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" id="submit-btn">
+                            <i class="fas fa-search me-2"></i>Analyser l'Image
+                        </button>
+                    </div>
+                </form>
+
+                {% if session.prediction %}
+                <div class="mt-4 text-center">
+                    <h4 style="{{ 'color: red;' if session.prediction == 'Tumeur détectée' else 'color: green;' }}">{{ session.prediction }}</h4>
+                    <p><strong>Probabilité:</strong> {{ session.probability }}%</p>
+                    <img src="{{ session.image_path }}" alt="Image IRM" class="img-fluid mt-3" />
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
